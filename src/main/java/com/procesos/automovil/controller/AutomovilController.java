@@ -1,12 +1,11 @@
 package com.procesos.automovil.controller;
-
-
 import com.procesos.automovil.models.Automovil;
 import com.procesos.automovil.services.AutomovilServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +15,8 @@ public class AutomovilController {
     @Autowired
     private AutomovilServiceImp automovilServiceImp;
 
-    public AutomovilController(AutomovilServiceImp automovilServiceImp) {
+
+    public  AutomovilController(AutomovilServiceImp automovilServiceImp) {
         this.automovilServiceImp = automovilServiceImp;
     }
     @GetMapping(value = "/cars/{id}")
@@ -32,18 +32,19 @@ public class AutomovilController {
     }
     //crear vehiculos  en la DB traidos de la api
 
-
     @PostMapping(value = "/cars")
-    public ResponseEntity saveAutomovil(@RequestBody Automovil automovil){
+    public ResponseEntity createAutomovil(@RequestBody Automovil automovil){
+        System.out.println(automovil);
+
+        Long id = automovil.getId();
+        if (automovilServiceImp.validarIdExistente(id)) {
+            return  ResponseEntity.badRequest().body("El ID ya existe en la base de datos.");
+        }
+
         Map response = new HashMap();
         Boolean userResp = automovilServiceImp.createAutomovil();
-        Long id = automovil.getId();
 
-        if (automovilServiceImp.validarIdExistente(id)) {
-            return ResponseEntity.badRequest().body("El ID ya existe en la base de datos.");
-        }
-        //sea un objeto estructurado y que el id que viene no este en la db
-        //&& (automovilServiceImp.getAutomovil(Long id)
+
         if(userResp == true  ){
 
             response.put("status", "201");
