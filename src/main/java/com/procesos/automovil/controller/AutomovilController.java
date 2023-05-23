@@ -51,7 +51,8 @@ public class AutomovilController {
     }
 
     @PostMapping(value = "/cars")
-    public ResponseEntity saveAutomovil(){
+    public ResponseEntity saveAutomovil(@RequestHeader(value = "Authorization") String token){
+        if(!validateToken(token)){return new ResponseEntity<>("Token invalido",HttpStatus.UNAUTHORIZED);}
         Map response = new HashMap();
 
         Boolean userResp = automovilServiceImp.createAutomovil();
@@ -70,7 +71,8 @@ public class AutomovilController {
 
 
     @GetMapping(value = "/cars")
-    public ResponseEntity findAllAutomovil(){
+    public ResponseEntity findAllAutomovil(@RequestHeader(value = "Authorization") String token){
+        if(!validateToken(token)){return new ResponseEntity<>("Token invalido",HttpStatus.UNAUTHORIZED);}
 
         Map response = new HashMap();
         try {
@@ -88,7 +90,8 @@ public class AutomovilController {
 
     @PutMapping(value = "/cars/{id}")
 
-    public ResponseEntity updateAutomovil(@PathVariable Long id, @RequestBody Automovil automovil){
+    public ResponseEntity updateAutomovil(@PathVariable Long id, @RequestBody Automovil automovil,@RequestHeader(value = "Authorization") String token){
+        if(!validateToken(token)){return new ResponseEntity<>("Token invalido",HttpStatus.UNAUTHORIZED);}
         Map response = new HashMap();
         Boolean userResp = automovilServiceImp.updateAutomovil(id,automovil);
 
