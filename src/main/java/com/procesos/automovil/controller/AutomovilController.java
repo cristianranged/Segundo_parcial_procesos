@@ -36,7 +36,6 @@ public class AutomovilController {
 
     @GetMapping(value = "/cars/{id}")
     public ResponseEntity findAutomovilById(@PathVariable Long id,@RequestHeader(value = "Authorization") String token){
-        System.out.println(token);
         if(!validateToken(token)){return new ResponseEntity<>("Token invalido",HttpStatus.UNAUTHORIZED);}
         Map response = new HashMap();
         try {
