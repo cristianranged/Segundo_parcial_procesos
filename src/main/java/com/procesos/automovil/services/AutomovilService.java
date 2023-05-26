@@ -1,15 +1,15 @@
 package com.procesos.automovil.services;
 
 import com.procesos.automovil.models.Automovil;
+import com.procesos.automovil.models.User;
 
 import java.util.List;
 
+
 public interface AutomovilService {
     Automovil getAutomovil(Long id);
-    Automovil getAutomovils(Long id);
-    Boolean createAutomovil();
+    Boolean createAutomovil(Long automovil, User user);
     List<Automovil> allAutomovil();
-    List<Automovil> allAutomovils();
     Boolean updateAutomovil(Long id, Automovil car);
 
 

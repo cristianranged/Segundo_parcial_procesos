@@ -43,7 +43,7 @@ public class UserController {
         apiResponse = new ApiResponse(Constants.REGISTER_BAD,user);
         return new ResponseEntity<>(apiResponse,HttpStatus.BAD_REQUEST);
     }
-    // TAREA
+
     @GetMapping(value = "")
     public ResponseEntity allUsers(){
 
@@ -57,28 +57,23 @@ public class UserController {
 
     }
 
-/*
-    @PutMapping(value = "/user/{id}")
+
+    @PutMapping(value = "/{id}")
     public ResponseEntity updateUser(@PathVariable Long id, @RequestBody User user) {
 
-        Boolean userDB = userServiceImp.updateUser(id, user);
+        Boolean userDB = userService.updateUser(id, user);
         try {
             if (userDB == null) {
-
-                apiResponse = new ApiResponse(Constants.REGISTER_UPDATED,"");
+                apiResponse = new ApiResponse(Constants.REGISTER_NOT_FOUND,"");
                 return new ResponseEntity(apiResponse, HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity(apiResponse.getUser(id), HttpStatus.ACCEPTED);
+            apiResponse = new ApiResponse(Constants.REGISTER_UPDATED, userService.getUser(id));
+            return new ResponseEntity(apiResponse, HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            response.put("status", "201");
-            response.put("message", "se encontro usuario");
-            return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
+           apiResponse = new ApiResponse(Constants.REGISTER_BAD,user);
+            return new ResponseEntity(apiResponse, HttpStatus.BAD_REQUEST);
         }
     }
-
-
-*/
-
 
 
 

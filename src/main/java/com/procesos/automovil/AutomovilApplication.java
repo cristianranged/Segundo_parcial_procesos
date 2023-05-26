@@ -2,20 +2,15 @@ package com.procesos.automovil;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
-@SpringBootApplication
-@Configuration
+
+@SpringBootApplication(exclude={SecurityAutoConfiguration.class})
 public class AutomovilApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(AutomovilApplication.class, args);
 	}
-	@Bean
-	public RestTemplate restTemplate(RestTemplateBuilder builder){
-		return builder.build();
-	}
 }
+

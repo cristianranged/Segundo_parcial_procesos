@@ -1,84 +1,80 @@
 package com.procesos.automovil.services;
 
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.procesos.automovil.models.Automovil;
+import com.procesos.automovil.models.User;
 import com.procesos.automovil.repository.AutomovilRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 
-import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class AutomovilServiceImp implements AutomovilService {
-
-    private final RestTemplate restTemplate;
-
-
-    public AutomovilServiceImp(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
     @Autowired
-    private AutomovilRepository AutomovilRepository;
-
+    private  RestTemplate restTemplate;
+    @Autowired
+    private AutomovilRepository automovilRepository;
 
     @Override
     public Automovil getAutomovil(Long id){
-        String url="https://643c82256afd66da6adfbe5f.mockapi.io/cars/";
-        Automovil response= restTemplate.getForObject(url+id, Automovil.class);
-        return response;
+
+        return automovilRepository.findById(id).get();
     }
 
     @Override
-    public Boolean createAutomovil() {
-
-        // traer los id de la db y comparar si el id que va a ser ingresado ya existe
-        //
-
-
+    public Boolean createAutomovil(Long id, User user) {
         try {
-            String url="https://643c82256afd66da6adfbe5f.mockapi.io/cars/";
-            Automovil[] response= restTemplate.getForObject(url, Automovil[].class);
-            AutomovilRepository.saveAll(Arrays.asList(response));
+            String baseUrl = "https://myfakeapi.com/api/cars/";
+            ResponseEntity<String> response = restTemplate.getForEntity(baseUrl.concat(String.valueOf(id)), String.class);
+            ObjectMapper objectMapper = new ObjectMapper();
+            Automovil automovil = objectMapper.readValue(response.getBody().substring(7), Automovil.class);
+            automovil.setUser(user);
+            automovilRepository.save(automovil);
             return true;
         }catch (Exception e){
+            System.out.println(e.getMessage());
             return false;
         }
     }
 
     @Override
     public List<Automovil> allAutomovil() {
-        String url="https://643c82256afd66da6adfbe5f.mockapi.io/cars/";
-        Automovil[] response= restTemplate.getForObject(url, Automovil[].class);
-        return Arrays.asList(response);
-
-    }
-    @Override
-    public List<Automovil> allAutomovils() {
-
-        return AutomovilRepository.findAll();
-
+        return null;
     }
 
     @Override
-    public Automovil getAutomovils(Long id){
-        return AutomovilRepository.findById(id).get();
-    }
-
-    @Override
-    public Boolean updateAutomovil(Long id, Automovil car) {
+    public Boolean updateAutomovil(Long id, Automovil automovil) {
         try {
-            Automovil carBD = AutomovilRepository.findById(id).get();
-            carBD.setCar(car.getCar());
-            carBD.setCar_model(car.getCar_model());
-            carBD.setCar_color(car.getCar_color());
-            carBD.setCar_model_year(car.getCar_model_year());
+            Automovil automovilBD = automovilRepository.findById(id).get();
+            automovilBD.setCar(automovilBD.getCar());
+            automovilBD.setCar_model(automovil.getCar_model());
+            automovilBD.setCar_color(automovil.getCar_color());
+            automovilBD.setCar_model_year(automovil.getCar_model_year());
+
+            automovilBD.setPrice(automovil.getPrice());
+            automovilBD.setAvailability(automovil.isAvailability());
+            Automovil automovil1Up = automovilRepository.save(automovilBD);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    public Boolean deleteAutomovil(Long id, Automovil automovil) {
+        try {
+            Automovil automovilBD = automovilRepository.findById(id).get();
+            automovilBD.setCar(automovilBD.getCar());
+            automovilBD.setCar_model(automovil.getCar_model());
+            automovilBD.setCar_color(automovil.getCar_color());
+            automovilBD.setCar_model_year(automovil.getCar_model_year());
             //carBD.setCar_vin(car.getCar_vin());
-            carBD.setPrice(carBD.getPrice());
-            carBD.setAvailability(car.isAvailability());
-            Automovil car1Up = AutomovilRepository.save(carBD);
+            automovilBD.setPrice(automovil.getPrice());
+            automovilBD.setAvailability(automovil.isAvailability());
+            Automovil automovilDe = automovilRepository.save(automovilBD);
             return true;
         }catch (Exception e){
             return false;
@@ -86,6 +82,6 @@ public class AutomovilServiceImp implements AutomovilService {
     }
 
     public boolean validarIdExistente(Long id) {
-        return AutomovilRepository.existsById(id);
+        return automovilRepository.existsById(id);
     }
 }
