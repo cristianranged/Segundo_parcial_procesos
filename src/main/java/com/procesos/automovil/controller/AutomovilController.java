@@ -2,6 +2,8 @@ package com.procesos.automovil.controller;
 
 import com.procesos.automovil.models.Automovil;
 import com.procesos.automovil.services.AutomovilServiceImp;
+import com.procesos.automovil.utils.ApiResponse;
+import com.procesos.automovil.utils.Constants;
 import com.procesos.automovil.utils.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +62,7 @@ public class AutomovilController {
 
             Map response = new HashMap();
             Boolean userResp = automovilServiceImp.createAutomovil(automovil.getId(),automovil.getUser());
-            if(userResp == true  ){
+            if(userResp == true){
 
                 response.put("status", "201");
                 response.put("message","Se creo el vehiculo");
@@ -92,6 +94,7 @@ public class AutomovilController {
 
 
     //actualizar vehiculo almacenados en la DB por id
+    @CrossOrigin(origins = "http://localhost:8088")
     @PutMapping(value = "/{id}")
     public  ResponseEntity updateAutomovil(@PathVariable Long id, @RequestBody Automovil automovil, @RequestHeader(value = "Authorization") String token) {
         Map response = new HashMap();
@@ -110,6 +113,21 @@ public class AutomovilController {
             response.put("status", "201");
             response.put("massage", "se no se pudo actualizar el automovil");
             return new ResponseEntity(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity deleteautomovil(@PathVariable Long id, @RequestHeader(value = "Authorization") String token){
+        Map response = new HashMap();
+        try {
+            if(!validateToken(token)){
+                return new ResponseEntity("Token invalido", HttpStatus.UNAUTHORIZED);
+            }
+            return new ResponseEntity(automovilServiceImp.delete(id), HttpStatus.OK);
+        }catch(Exception e){
+            response.put("status","404");
+            response.put("message","No se encontro el vehiculo!");
+            return new ResponseEntity<>(response,HttpStatus.NOT_FOUND);
         }
     }
 

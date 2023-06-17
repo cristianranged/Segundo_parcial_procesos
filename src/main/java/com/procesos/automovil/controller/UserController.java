@@ -45,6 +45,7 @@ public class UserController {
         return new ResponseEntity<>(apiResponse,HttpStatus.BAD_REQUEST);
     }
 
+
     @GetMapping(value = "")
     public ResponseEntity allUsers(){
 
@@ -76,7 +77,15 @@ public class UserController {
         }
     }
 
+    @DeleteMapping(value="/{id}")
+    public ResponseEntity deleteUser(@PathVariable Long id) {
+        try {
+            apiResponse = new ApiResponse(Constants.REGISTER_FOUND, (userService.delete(id)));
+            return new ResponseEntity(apiResponse, HttpStatus.OK);
+        } catch (Exception e) {
+            apiResponse = new ApiResponse(Constants.REGISTER_NOT_FOUND, "");
+            return new ResponseEntity(apiResponse, HttpStatus.NOT_FOUND);
+        }
 
-
-
+    }
 }

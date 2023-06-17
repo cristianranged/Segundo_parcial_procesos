@@ -11,7 +11,7 @@ public interface AutomovilService {
     Boolean createAutomovil(Long automovil, User user);
     List<Automovil> allAutomovil();
     Boolean updateAutomovil(Long id, Automovil car);
-
+    Boolean delete(Long id);
 
 }
 

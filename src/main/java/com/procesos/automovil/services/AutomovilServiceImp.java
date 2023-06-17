@@ -40,7 +40,16 @@ public class AutomovilServiceImp implements AutomovilService {
             return false;
         }
     }
-
+    @Override
+    public Boolean delete(Long id){
+        try {
+            Automovil automovil = automovilRepository.findById(id).get();
+            automovilRepository.delete(automovil);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
     @Override
     public List<Automovil> allAutomovil() {
         return automovilRepository.findAll();

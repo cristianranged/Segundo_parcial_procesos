@@ -42,6 +42,17 @@ public  class UserServiceImp implements UserService {
     }
 
     @Override
+    public Boolean delete(Long id){
+        try {
+            User user = userRepository.findById(id).get();
+            userRepository.delete(user);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    @Override
     public Boolean updateUser(Long id, User user) {
         try {
             User userBD = userRepository.findById(id).get();
