@@ -54,10 +54,10 @@ public class AutomovilController {
             Long id = automovil.getId();
 
             if(!validateToken(token)){
-                return new ResponseEntity("Token invalido", HttpStatus.UNAUTHORIZED);
+                return new ResponseEntity("Token invalid", HttpStatus.UNAUTHORIZED);
             }
             if (automovilServiceImp.validarIdExistente(id)) {
-                return ResponseEntity.badRequest().body("El ID ya existe");
+                return ResponseEntity.badRequest().body("El ID ya esta asociado");
             }
 
             Map response = new HashMap();
