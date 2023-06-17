@@ -13,6 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin
 public class UserController {
 
     @Autowired
@@ -32,7 +33,7 @@ public class UserController {
         }
 
     }
-    @PostMapping (value = "")
+    @PostMapping ("")
     public ResponseEntity saveUser(@RequestBody User user){
         Boolean userResp = userService.createUser(user);
 

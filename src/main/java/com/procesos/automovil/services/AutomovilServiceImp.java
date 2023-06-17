@@ -43,7 +43,7 @@ public class AutomovilServiceImp implements AutomovilService {
 
     @Override
     public List<Automovil> allAutomovil() {
-        return null;
+        return automovilRepository.findAll();
     }
 
     @Override
