@@ -63,6 +63,7 @@ public class AutomovilServiceImp implements AutomovilService {
             automovilBD.setCar_model(automovil.getCar_model());
             automovilBD.setCar_color(automovil.getCar_color());
             automovilBD.setCar_model_year(automovil.getCar_model_year());
+            automovilBD.setCar_vin(automovil.getCar_vin());
             automovilBD.setPrice(automovil.getPrice());
             automovilBD.setAvailability(automovil.isAvailability());
             automovilBD.setUser(automovil.getUser());
