@@ -59,13 +59,13 @@ public class AutomovilServiceImp implements AutomovilService {
     public Boolean updateAutomovil(Long id, Automovil automovil) {
         try {
             Automovil automovilBD = automovilRepository.findById(id).get();
-            automovilBD.setCar(automovilBD.getCar());
+            automovilBD.setCar(automovil.getCar());
             automovilBD.setCar_model(automovil.getCar_model());
             automovilBD.setCar_color(automovil.getCar_color());
             automovilBD.setCar_model_year(automovil.getCar_model_year());
-
             automovilBD.setPrice(automovil.getPrice());
             automovilBD.setAvailability(automovil.isAvailability());
+            automovilBD.setUser(automovil.getUser());
             Automovil automovil1Up = automovilRepository.save(automovilBD);
             return true;
         }catch (Exception e){
@@ -73,22 +73,7 @@ public class AutomovilServiceImp implements AutomovilService {
         }
     }
 
-    public Boolean deleteAutomovil(Long id, Automovil automovil) {
-        try {
-            Automovil automovilBD = automovilRepository.findById(id).get();
-            automovilBD.setCar(automovilBD.getCar());
-            automovilBD.setCar_model(automovil.getCar_model());
-            automovilBD.setCar_color(automovil.getCar_color());
-            automovilBD.setCar_model_year(automovil.getCar_model_year());
-            //carBD.setCar_vin(car.getCar_vin());
-            automovilBD.setPrice(automovil.getPrice());
-            automovilBD.setAvailability(automovil.isAvailability());
-            Automovil automovilDe = automovilRepository.save(automovilBD);
-            return true;
-        }catch (Exception e){
-            return false;
-        }
-    }
+
 
     public boolean validarIdExistente(Long id) {
         return automovilRepository.existsById(id);

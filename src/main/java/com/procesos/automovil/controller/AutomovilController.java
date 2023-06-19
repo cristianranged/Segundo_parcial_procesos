@@ -48,30 +48,30 @@ public class AutomovilController {
     }
 
     //crear automoviles  en la DB traidos de la api
-        @PostMapping("")
-        public ResponseEntity saveAutomovil(@RequestBody Automovil automovil,@RequestHeader(value = "Authorization") String token){
-            System.out.println(automovil.getUser());
-            Long id = automovil.getId();
+    @PostMapping("")
+    public ResponseEntity saveAutomovil(@RequestBody Automovil automovil,@RequestHeader(value = "Authorization") String token){
+        System.out.println(automovil.getUser());
+        Long id = automovil.getId();
 
-            if(!validateToken(token)){
-                return new ResponseEntity("Token invalid", HttpStatus.UNAUTHORIZED);
-            }
-            if (automovilServiceImp.validarIdExistente(id)) {
-                return ResponseEntity.badRequest().body("El ID ya esta asociado");
-            }
-
-            Map response = new HashMap();
-            Boolean userResp = automovilServiceImp.createAutomovil(automovil.getId(),automovil.getUser());
-            if(userResp == true){
-
-                response.put("status", "201");
-                response.put("message","Se creo el vehiculo");
-                return new ResponseEntity(response, HttpStatus.CREATED);
-            }
-            response.put("status","400");
-            response.put("message","Hubo un error al crear el vehiculo");
-            return new ResponseEntity(response,HttpStatus.BAD_REQUEST);
+        if(!validateToken(token)){
+            return new ResponseEntity("Token invalid", HttpStatus.UNAUTHORIZED);
         }
+        if (automovilServiceImp.validarIdExistente(id)) {
+            return ResponseEntity.badRequest().body("El ID ya esta asociado");
+        }
+
+        Map response = new HashMap();
+        Boolean userResp = automovilServiceImp.createAutomovil(automovil.getId(),automovil.getUser());
+        if(userResp == true){
+
+            response.put("status", "201");
+            response.put("message","Se creo el vehiculo");
+            return new ResponseEntity(response, HttpStatus.CREATED);
+        }
+        response.put("status","400");
+        response.put("message","Hubo un error al crear el vehiculo");
+        return new ResponseEntity(response,HttpStatus.BAD_REQUEST);
+    }
 
 
     //visualizar automoviles almacenados en la DB
@@ -94,7 +94,7 @@ public class AutomovilController {
 
 
     //actualizar vehiculo almacenados en la DB por id
-    @CrossOrigin(origins = "http://localhost:8088")
+
     @PutMapping(value = "/{id}")
     public  ResponseEntity updateAutomovil(@PathVariable Long id, @RequestBody Automovil automovil, @RequestHeader(value = "Authorization") String token) {
         Map response = new HashMap();
