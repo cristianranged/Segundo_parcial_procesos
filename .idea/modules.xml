@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Primer_Parcial.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Primer_Parcial.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Segundo_parcial_procesos.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Segundo_parcial_procesos.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.parcial.Segundo_parcial_procesos.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.parcial.Segundo_parcial_procesos.main.iml" />
     </modules>
   </component>
 </project>
